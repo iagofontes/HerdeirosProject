@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.VideoView;
 
 import static br.com.fontes.projetinhobossini.R.id.container;
 
@@ -18,6 +19,11 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
+    private VideoView vv;
+
+    private VideoFragment video;
+    private EmailFragment email;
+    private DoacoesFragment donate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOffscreenPageLimit(1);
 
 //        getSupportActionBar().setDisplayShowHomeEnabled(false);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -61,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+//        if(vv)
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -80,20 +89,25 @@ public class MainActivity extends AppCompatActivity {
 
             switch (position){
                 case 0:
-                    VideoFragment video = new VideoFragment();
+//                    VideoFragment video = new VideoFragment();
+                    MainActivity.this.video = new VideoFragment();
+                    if(email != null){
+                        email = null;
+                    }
                     return video;
                 case 1:
-                    EmailFragment email = new EmailFragment();
+//                    EmailFragment email = new EmailFragment();
+                    email = new EmailFragment();
                     return email;
                 case 2:
-                    PagSeguroFragment pagSeguro = new PagSeguroFragment();
-                    return pagSeguro;
+                    donate = new DoacoesFragment();
+                    return donate;
                 /*case 3:
-                    Item item = new Item();
-                    return item;
+                PagSeguroFragment pagSeguro = new PagSeguroFragment();
+                return pagSeguro;
                 case 4:
-                    Evento evento = new Evento();
-                    return evento;*/
+                    EventosFragment eventos = new EventosFragment();
+                    return eventos;*/
                 default:
                     return null;
             }
@@ -103,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -113,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
                     return "SECTION 1";
                 case 1:
                     return "SECTION 2";
-                /*case 2:
+                case 2:
                     return "SECTION 3";
-                case 3:
+                /*case 3:
                     return "SECTION 4";
                 case 4:
                     return "SECTION 5";*/

@@ -1,3 +1,4 @@
+<!--<android.support.constraint.ConstraintLayout-->
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -35,18 +36,19 @@
         android:id="@+id/lblMensagem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="11dp"
         android:layout_marginStart="16dp"
         android:text="Mensagem:"
         app:layout_constraintBottom_toTopOf="@+id/txtMessage"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1" />
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginLeft="16dp" />
     <EditText
         android:id="@+id/txtTelefone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="-8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="(xx)xxxx-xxxx"
@@ -55,7 +57,8 @@
         app:layout_constraintTop_toBottomOf="@+id/txtEmail"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintHorizontal_bias="0.0" />
     <TextView
         android:id="@+id/lblSite"
         android:layout_width="wrap_content"
@@ -116,7 +119,7 @@
         android:id="@+id/txtCelular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="(xx)xxxxx-xxxx"
@@ -125,12 +128,13 @@
         app:layout_constraintTop_toBottomOf="@+id/txtTelefone"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintHorizontal_bias="1.0" />
     <EditText
         android:id="@+id/txtEmpresa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Empresa"
@@ -139,12 +143,13 @@
         app:layout_constraintTop_toBottomOf="@+id/txtCelular"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintHorizontal_bias="0.0" />
     <EditText
         android:id="@+id/txtSite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="-12dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="www.example.com.br"
@@ -153,13 +158,14 @@
         app:layout_constraintTop_toBottomOf="@+id/txtEmpresa"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <EditText
         android:id="@+id/txtMessage"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="160dp"
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -167,13 +173,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1" />
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginLeft="16dp" />
 
     <EditText
         android:id="@+id/txtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:text="example@exaple.com"
@@ -182,7 +189,8 @@
         app:layout_constraintTop_toBottomOf="@+id/txtNome"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -196,5 +204,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="77dp"
+        android:layout_marginRight="16dp" />
 </android.support.constraint.ConstraintLayout>

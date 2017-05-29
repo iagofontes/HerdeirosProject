@@ -1,7 +1,5 @@
 package br.com.fontes.projetinhobossini;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +22,7 @@ import java.util.List;
 
 public class DoacoesFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+//    private OnFragmentInteractionListener mListener;
     private List<Donate> donates = new ArrayList<>();
 
     public DoacoesFragment() {
@@ -62,11 +60,13 @@ public class DoacoesFragment extends Fragment {
         }catch (Exception e){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
+
         if (url != null){
 //            dismissKeyboard (locationEditText);
             GetDonates getDonates =
                     new GetDonates();
             getDonates.execute(url);
+            Toast.makeText(getContext(), "Requisição enviada.", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(getContext(), "Cannot create a URL.", Toast.LENGTH_LONG).show();
@@ -77,36 +77,6 @@ public class DoacoesFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-
     private class GetDonates extends AsyncTask<URL, Void, JSONObject> {
         protected JSONObject doInBackground(URL... params) {
             HttpURLConnection connection = null;
@@ -115,7 +85,7 @@ public class DoacoesFragment extends Fragment {
                 int response = connection.getResponseCode();
                 if (response == HttpURLConnection.HTTP_OK){
                     StringBuilder builder = new StringBuilder ();
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))){
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))){
                         String line;
                         while ((line = reader.readLine()) != null){
                             builder.append(line);
@@ -146,6 +116,7 @@ public class DoacoesFragment extends Fragment {
             donates.clear();
             try{
                 JSONArray list = forecast.getJSONArray("list");
+//                JSONArray list = forecast.getJSONArray(1);
                 for (int i = 0; i < list.length(); i++){
                     JSONObject line = list.getJSONObject(i);
 //                    JSONObject name = line.getJSONObject("nome");
@@ -159,7 +130,7 @@ public class DoacoesFragment extends Fragment {
         }
 
         protected void onPostExecute(JSONObject don) {
-            convertJSONToArrayList (don);
+//            convertJSONToArrayList (don);
             /*weatherArrayAdapter.notifyDataSetChanged();
             weatherListView.smoothScrollToPosition(0);*/
         }

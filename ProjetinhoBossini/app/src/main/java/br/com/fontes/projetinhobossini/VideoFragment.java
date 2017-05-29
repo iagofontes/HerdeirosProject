@@ -1,6 +1,5 @@
 package br.com.fontes.projetinhobossini;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,27 +8,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.MediaController;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 public class VideoFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
-    private VideoView vv;
+//    private OnFragmentInteractionListener mListener;
+    public VideoView vv;
 
     public VideoFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static VideoFragment newInstance(String param1, String param2) {
+    /*public static VideoFragment newInstance(String param1, String param2) {
         VideoFragment fragment = new VideoFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,17 +49,25 @@ public class VideoFragment extends Fragment {
             public void onCompletion(MediaPlayer mp) {
                 //mandar para a próxima página da aplicação.
                 //Não sei se irá funcionar
-                EmailFragment ef = new EmailFragment();
-                try{
-
+                /*try{
+//                    VideoFragment.this.finalize();
                     VideoFragment.this.finalize();
+                    EmailFragment ef = new EmailFragment();
+//                    ef.
                 }catch(Exception e){
                     Toast.makeText(getContext(), "Erros ao finalizar vídeo.",Toast.LENGTH_SHORT).show();
                 } catch (Throwable throwable) {
                     Toast.makeText(getContext(), "Erros ao finalizar vídeo, problemas com trowable.",
                             Toast.LENGTH_SHORT).show();
                     throwable.printStackTrace();
-                }
+                }*/
+            }
+        });
+        vv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                vv.canPause();
+                vv.pause();
             }
         });
         return newView;
@@ -80,7 +86,7 @@ public class VideoFragment extends Fragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    /*// TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -107,5 +113,5 @@ public class VideoFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
+    }*/
 }
