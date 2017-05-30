@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class DoacoesFragment extends Fragment {
     private List<Donate> donates = new ArrayList<>();
     protected TextView returna;
     public List<Bitmap> imagesBit;
+    public ImageView img1;
+    public TextView txt1;
 
     public DoacoesFragment() {
         // Required empty public constructor
@@ -61,6 +64,10 @@ public class DoacoesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_doacoes, container, false);
         returna = (TextView) view.findViewById(R.id.returnAsync);
+        img1 = (ImageView) view.findViewById(R.id.imageView);
+        txt1 = (TextView) view.findViewById(R.id.textView);
+
+
         URL url = null;
 
         try{
@@ -192,9 +199,23 @@ public class DoacoesFragment extends Fragment {
         }
     }
 
+    public void carregarImagens(Donate[] don){
+
+        baixarImagensDonates(don);
+        if(this.imagesBit.size() > 0){
+            //CONTINUAR DAQUI
+        }
+    }
+
     public void baixarImagensDonates(Donate[] don){
         //Criar um array de image view para adicionar os bitmaps dentro do array
-//        Image
+        int i=0;
+        for(i=0; i<don.length; i++){
+            DownloadImageTask dit = new DownloadImageTask();
+            dit.execute(don[i].getPathImage());
+            /*new DownloadImageTask((ImageView) findViewById(R.id.imageView1))
+                    .execute(MY_URL_STRING);*/
+        }
     }
 
 
