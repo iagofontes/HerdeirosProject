@@ -102,12 +102,12 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     donate = new DoacoesFragment();
                     return donate;
-                /*case 3:
-                PagSeguroFragment pagSeguro = new PagSeguroFragment();
-                return pagSeguro;
+                case 3:
+                    PagSeguroFragment pagSeguro = new PagSeguroFragment();
+                    return pagSeguro;
                 case 4:
                     EventosFragment eventos = new EventosFragment();
-                    return eventos;*/
+                    return eventos;
                 default:
                     return null;
             }
@@ -117,22 +117,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 5;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Vídeo";
                 case 1:
-                    return "SECTION 2";
+                    return "Email";
                 case 2:
-                    return "SECTION 3";
-                /*case 3:
-                    return "SECTION 4";
+                    return "Doações";
+                case 3:
+                    return "PagSeguro";
                 case 4:
-                    return "SECTION 5";*/
+                    return "Eventos";
             }
             return null;
         }

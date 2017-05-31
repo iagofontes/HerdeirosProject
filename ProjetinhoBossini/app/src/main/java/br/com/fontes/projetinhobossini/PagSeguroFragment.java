@@ -1,16 +1,15 @@
 package br.com.fontes.projetinhobossini;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 public class PagSeguroFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+//    private OnFragmentInteractionListener mListener;
 
     public PagSeguroFragment() {
         // Required empty public constructor
@@ -39,10 +38,25 @@ public class PagSeguroFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pag_seguro, container, false);
+        View view = inflater.inflate(R.layout.fragment_pag_seguro, container, false);
+
+        WebView wv = (WebView)view.findViewById(R.id.webView);
+        /*String html = "<!-- INICIO FORMULARIO BOTAO PAGSEGURO -->\n" +
+                "<form action=\"https://pagseguro.uol.com.br/checkout/v2/donation.html\" method=\"post\">\n" +
+                "<!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->\n" +
+                "<input type=\"hidden\" name=\"currency\" value=\"BRL\" />\n" +
+                "<input type=\"hidden\" name=\"receiverEmail\" value=\"iagofontes@hotmail.com\" />\n" +
+                "<input type=\"hidden\" name=\"iot\" value=\"button\" />\n" +
+                "<input type=\"image\" src=\"https://stc.pagseguro.uol.com.br/public/img/botoes/doacoes/120x53-doar-preto.gif\" name=\"submit\" alt=\"Pague com PagSeguro - é rápido, grátis e seguro!\" />\n" +
+                "</form>\n" +
+                "<!-- FINAL FORMULARIO BOTAO PAGSEGURO -->";
+        wv.loadData(html, "text/html", null);*/
+        wv.loadUrl("http://172.20.10.7:3000/pagseguro");
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+/*    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -69,5 +83,5 @@ public class PagSeguroFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
+    }*/
 }

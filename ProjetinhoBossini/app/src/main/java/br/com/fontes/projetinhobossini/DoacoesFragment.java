@@ -73,7 +73,7 @@ public class DoacoesFragment extends Fragment {
         try{
 
 //            url = new URL("http://localhost:3000/donates");
-            url = new URL("http://10.67.172.170:3000/donates");
+            url = new URL("http://172.20.10.7:3000/donates");
 
         }catch (Exception e){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -144,13 +144,14 @@ public class DoacoesFragment extends Fragment {
 //                    JSONObject name = line.getJSONObject("nome");
 //                    JSONObject path = line.getJSONObject("pathImage");
                     String nome = line.optString("name");
-                    if(returna != null){
+                    /*if(returna != null){
                         returna.setText(nome);
                     }else{
                         Toast.makeText(getContext(), "Texto nulo.", Toast.LENGTH_LONG).show();
-                    }
-                    donates.add (new Donate(line.getString("nome"), line.getString("pathImage")));
+                    }*/
+                    donates.add (new Donate(line.getString("name"), line.getString("pathImage")));
                 }
+                Log.d("ConvertJSONToArray", donates.toString());
             }
             catch (JSONException e){
                 e.printStackTrace();
@@ -204,6 +205,8 @@ public class DoacoesFragment extends Fragment {
         baixarImagensDonates(don);
         if(this.imagesBit.size() > 0){
             //CONTINUAR DAQUI
+            img1.setImageBitmap(imagesBit.get(0));
+            txt1.setText("Primeira Imagem.");
         }
     }
 
