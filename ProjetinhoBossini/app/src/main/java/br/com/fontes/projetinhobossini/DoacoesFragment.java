@@ -31,9 +31,11 @@ public class DoacoesFragment extends Fragment {
 //    private OnFragmentInteractionListener mListener;
     private List<Donate> donates = new ArrayList<>();
     protected TextView returna;
-    public List<Bitmap> imagesBit;
+//    public List<Bitmap> ;
     public ImageView img1;
     public TextView txt1;
+    private List<Bitmap> imagesBit = new ArrayList<Bitmap>();
+    public ImageView foto1=null;
 
     public DoacoesFragment() {
         // Required empty public constructor
@@ -63,8 +65,8 @@ public class DoacoesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_doacoes, container, false);
-        returna = (TextView) view.findViewById(R.id.returnAsync);
-        img1 = (ImageView) view.findViewById(R.id.imageView);
+//        returna = (TextView) view.findViewById(R.id.returnAsync);
+        img1 = (ImageView) view.findViewById(R.id.foto1);
         txt1 = (TextView) view.findViewById(R.id.textView);
 
 
@@ -73,7 +75,8 @@ public class DoacoesFragment extends Fragment {
         try{
 
 //            url = new URL("http://localhost:3000/donates");
-            url = new URL("http://172.20.10.7:3000/donates");
+//            url = new URL("http://172.20.10.7:3000/donates");
+            url = new URL("http://10.67.172.170:3000/donates");
 
         }catch (Exception e){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -84,14 +87,12 @@ public class DoacoesFragment extends Fragment {
             GetDonates getDonates =
                     new GetDonates();
             getDonates.execute(url);
-            Toast.makeText(getContext(), "Requisição enviada.", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "Requisição enviada.", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(getContext(), "Cannot create a URL.", Toast.LENGTH_LONG).show();
         }
-
         //Como exibir na tela essas informações?
-
         return view;
     }
 
@@ -134,22 +135,15 @@ public class DoacoesFragment extends Fragment {
             donates.clear();
             try{
                 JSONArray list = forecast.getJSONArray("donatezinhas");
-//                String obj = forecast.getString("nome");
-//                JSONArray list = forecast.toJSONArray(mano);
-//                JSONObject line = list.getJSONObject(i);
-
-//                Toast.makeText(getContext(), list.toString(), Toast.LENGTH_LONG).show();
                 for (int i = 0; i < list.length(); i++){
                     JSONObject line = list.getJSONObject(i);
-//                    JSONObject name = line.getJSONObject("nome");
-//                    JSONObject path = line.getJSONObject("pathImage");
                     String nome = line.optString("name");
                     /*if(returna != null){
                         returna.setText(nome);
                     }else{
                         Toast.makeText(getContext(), "Texto nulo.", Toast.LENGTH_LONG).show();
                     }*/
-                    donates.add (new Donate(line.getString("name"), line.getString("pathImage")));
+                    donates.add(new Donate(line.getString("name"), line.getString("pathImage")));
                 }
                 Log.d("ConvertJSONToArray", donates.toString());
             }
@@ -161,16 +155,13 @@ public class DoacoesFragment extends Fragment {
         protected void onPostExecute(JSONObject don) {
 
             convertJSONToArrayList (don);
+            txt1.setText(donates.get(0).getNome());
             //Chamar a segunda requisição para baixar as imagens aqui.
             if(donates.size() > 0){
-
+                baixarImagensDonates(donates);
             }
         }
     }
-
-    //    CÓDIGO PARA REALIZAR O DOWNLOAD DE IMAGENS E DEPOIS SUBSTITUIR NA VIEW
-    /*new DownloadImageTask((ImageView) findViewById(R.id.imageView1))
-            .execute(MY_URL_STRING);*/
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 //        ImageView bmImage;
@@ -181,43 +172,52 @@ public class DoacoesFragment extends Fragment {
         }
 
         protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
+
+            Bitmap bitmap = null;
+            HttpURLConnection connection = null;
+            try{
+                URL url = new URL(urls[0]);
+//                URL url = new URL("http://10.67.172.170:3000/getImage");
+                Log.d("url", urls[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                try(InputStream inputStream = connection.getInputStream ()){
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                    if(bitmap != null){
+                        imagesBit.add(bitmap);
+                    }
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            catch (Exception e){
                 e.printStackTrace();
             }
-            return mIcon11;
+            finally{
+                connection.disconnect();
+            }
+            return bitmap;
+
         }
 
         protected void onPostExecute(Bitmap result) {
             //Adicionar no array aqui ?
-            DoacoesFragment.this.imagesBit.add(result);
+//            DoacoesFragment.this.imagesBit.add(result);
+            Log.d("imgs", imagesBit.toString());
+            /*switch(){
+
+            }*/
+            img1.setImageBitmap(imagesBit.get(0));
 //            bmImage.setImageBitmap(result);
         }
     }
 
-    public void carregarImagens(Donate[] don){
-
-        baixarImagensDonates(don);
-        if(this.imagesBit.size() > 0){
-            //CONTINUAR DAQUI
-            img1.setImageBitmap(imagesBit.get(0));
-            txt1.setText("Primeira Imagem.");
-        }
-    }
-
-    public void baixarImagensDonates(Donate[] don){
+    public void baixarImagensDonates(List<Donate> don){
         //Criar um array de image view para adicionar os bitmaps dentro do array
-        int i=0;
-        for(i=0; i<don.length; i++){
+        Integer i=0;
+        for(i=0; i<don.size(); i++){
             DownloadImageTask dit = new DownloadImageTask();
-            dit.execute(don[i].getPathImage());
-            /*new DownloadImageTask((ImageView) findViewById(R.id.imageView1))
-                    .execute(MY_URL_STRING);*/
+            dit.execute(don.get(i).getPathImage(), i.toString());
         }
     }
 
