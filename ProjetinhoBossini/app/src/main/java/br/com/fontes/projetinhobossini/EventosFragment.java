@@ -3,11 +3,11 @@ package br.com.fontes.projetinhobossini;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -27,6 +27,8 @@ public class EventosFragment extends Fragment {
 //    private OnFragmentInteractionListener mListener;
     private EditText memo;
     private List<Eventos> eventos = new ArrayList<>();
+    private EventoArrayAdapter eventoArrayAdapter;
+    private ListView eventoListView;
 
     public EventosFragment() {
         // Required empty public constructor
@@ -35,20 +37,12 @@ public class EventosFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static EventosFragment newInstance(String param1, String param2) {
         EventosFragment fragment = new EventosFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
     }
 
     @Override
@@ -56,19 +50,23 @@ public class EventosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_eventos, container, false);
-        memo = (EditText) view.findViewById(R.id.nextEvents);
+        /*memo = (EditText) view.findViewById(R.id.nextEvents);
         String teste = "fubfnsdkfjsdfks 1\n" +
                 "fdnajfbdkfsdbfhsdbfkdjbffniofjei 2\n" +
                 "nfkldfndjksfnsjfsj 3";
         memo.setText(teste);
 
-
+*/
+        eventoListView= (ListView) view.findViewById(R.id.listEvents);
+        eventoArrayAdapter = new EventoArrayAdapter(getContext(), eventos);
+        eventoListView.setAdapter(eventoArrayAdapter);
         URL url = null;
 
         try{
 
 //            url = new URL("http://localhost:3000/donates");
-            url = new URL("http://172.20.10.7:3000/events");
+//            url = new URL(R.string.ip_server+"/events");
+            url = new URL("http://10.42.0.1:3000/events");
 
         }catch (Exception e){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -124,10 +122,10 @@ public class EventosFragment extends Fragment {
                 JSONArray list = forecast.getJSONArray("eventos");
                 for (int i = 0; i < list.length(); i++){
                     JSONObject line = list.getJSONObject(i);
-//                    String nome = line.optString("name");
-                    EventosFragment.this.eventos.add(new Eventos(line.getString("data"), line.getString("descricao"), line.getDouble("valor")));
+                    EventosFragment.this.eventos.add(
+                            new Eventos(line.getString("data"), line.getString("descricao"), line.getDouble("valor")));
                 }
-                Log.d("ConvertJSONToArray", EventosFragment.this.eventos.toString());
+//                Log.d("ConvertJSONToArray", EventosFragment.this.eventos.toString());
             }
             catch (JSONException e){
                 e.printStackTrace();
@@ -137,13 +135,8 @@ public class EventosFragment extends Fragment {
         protected void onPostExecute(JSONObject don) {
 
             convertJSONToArrayList (don);
-            Log.d("Eventos Convertidos", eventos.toString());
-            memo.setText("");
-            memo.setText(formatarEventos(EventosFragment.this.eventos));
-            //Chamar a segunda requisição para baixar as imagens aqui.
-            /*if(donates.size() > 0){
-
-            }*/
+            eventoArrayAdapter.notifyDataSetChanged();
+            eventoListView.smoothScrollToPosition(0);
         }
 
         protected String formatarEventos(List<Eventos> eve){

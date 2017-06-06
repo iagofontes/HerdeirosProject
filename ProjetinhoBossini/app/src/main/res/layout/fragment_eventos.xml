@@ -9,9 +9,13 @@
     <EditText
         android:id="@+id/nextEvents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine"
         android:enabled="false"/>
+    <ListView
+        android:id="@+id/listEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>

@@ -32,7 +32,7 @@ public class DoacoesFragment extends Fragment {
     private List<Donate> donates = new ArrayList<>();
     protected TextView returna;
 //    public List<Bitmap> ;
-    public ImageView img1;
+    public ImageView img1, img2;
     public TextView txt1;
     private List<Bitmap> imagesBit = new ArrayList<Bitmap>();
     public ImageView foto1=null;
@@ -44,20 +44,12 @@ public class DoacoesFragment extends Fragment {
 
     public static DoacoesFragment newInstance(String param1, String param2) {
         DoacoesFragment fragment = new DoacoesFragment();
-/*        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
     }
 
     @Override
@@ -67,6 +59,7 @@ public class DoacoesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_doacoes, container, false);
 //        returna = (TextView) view.findViewById(R.id.returnAsync);
         img1 = (ImageView) view.findViewById(R.id.foto1);
+        img2 = (ImageView) view.findViewById(R.id.foto2);
         txt1 = (TextView) view.findViewById(R.id.textView);
 
 
@@ -76,7 +69,7 @@ public class DoacoesFragment extends Fragment {
 
 //            url = new URL("http://localhost:3000/donates");
 //            url = new URL("http://172.20.10.7:3000/donates");
-            url = new URL("http://10.67.172.170:3000/donates");
+            url = new URL(R.string.ip_server+"/donates");
 
         }catch (Exception e){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -87,7 +80,6 @@ public class DoacoesFragment extends Fragment {
             GetDonates getDonates =
                     new GetDonates();
             getDonates.execute(url);
-//            Toast.makeText(getContext(), "Requisição enviada.", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(getContext(), "Cannot create a URL.", Toast.LENGTH_LONG).show();
@@ -111,7 +103,6 @@ public class DoacoesFragment extends Fragment {
                         }
                     }
                     catch (IOException e){
-//                        Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.read_error, Snackbar.LENGTH_LONG).show();
                         Toast.makeText(getContext(), "Errors while trying to get the donates.", Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
@@ -138,11 +129,6 @@ public class DoacoesFragment extends Fragment {
                 for (int i = 0; i < list.length(); i++){
                     JSONObject line = list.getJSONObject(i);
                     String nome = line.optString("name");
-                    /*if(returna != null){
-                        returna.setText(nome);
-                    }else{
-                        Toast.makeText(getContext(), "Texto nulo.", Toast.LENGTH_LONG).show();
-                    }*/
                     donates.add(new Donate(line.getString("name"), line.getString("pathImage")));
                 }
                 Log.d("ConvertJSONToArray", donates.toString());
@@ -164,11 +150,11 @@ public class DoacoesFragment extends Fragment {
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-//        ImageView bmImage;
 
-//        public DownloadImageTask(ImageView bmImage) {
+        int i=-1;
+
         public DownloadImageTask() {
-//            this.bmImage = bmImage;
+
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -177,6 +163,7 @@ public class DoacoesFragment extends Fragment {
             HttpURLConnection connection = null;
             try{
                 URL url = new URL(urls[0]);
+                i = Integer.parseInt(urls[1]);
 //                URL url = new URL("http://10.67.172.170:3000/getImage");
                 Log.d("url", urls[0]);
                 connection = (HttpURLConnection) url.openConnection();
@@ -201,13 +188,17 @@ public class DoacoesFragment extends Fragment {
         }
 
         protected void onPostExecute(Bitmap result) {
-            //Adicionar no array aqui ?
-//            DoacoesFragment.this.imagesBit.add(result);
             Log.d("imgs", imagesBit.toString());
-            /*switch(){
-
-            }*/
-            img1.setImageBitmap(imagesBit.get(0));
+            if(i != -1){
+                switch (i){
+                    case 0:
+                        img1.setImageBitmap(imagesBit.get(0));
+                        break;
+                    case 1:
+                        img2.setImageBitmap(imagesBit.get(1));
+                        break;
+                }
+            }
 //            bmImage.setImageBitmap(result);
         }
     }
