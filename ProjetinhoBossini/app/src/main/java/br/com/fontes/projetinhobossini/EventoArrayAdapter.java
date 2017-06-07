@@ -25,9 +25,6 @@ public class EventoArrayAdapter extends ArrayAdapter<Eventos> {
         super (context, -1, forecast);
     }
 
-
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Eventos eve = getItem (position);

@@ -1,5 +1,7 @@
 package br.com.fontes.projetinhobossini;
 
+import android.widget.ImageView;
+
 /**
  * Created by root on 26/05/17.
  */
@@ -8,11 +10,13 @@ public class Donate {
 
     public String nome;
     public String pathImage;
+    public ImageView img;
 
-    public Donate(String nome, String pathImage){
+    public Donate(String nome, String pathImage, ImageView img){
 
         this.nome = nome;
         this.pathImage = pathImage;
+        this.img = img;
     }
 
     public String getNome() {
@@ -30,4 +34,8 @@ public class Donate {
     public void setPathImage(String pathImage) {
         this.pathImage = pathImage;
     }
+
+    public ImageView getImg(){return img;}
+
+    public void setImg(ImageView img){this.img = img;}
 }

@@ -38,26 +38,11 @@ public class PagSeguroFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(R.string.ip_server+"/pagseguro");
+                Uri uri = Uri.parse(getString(R.string.ip_server)+"/pagseguro");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
         });
-
-//        WebView wv = (WebView)view.findViewById(R.id.webView);
-        /*String html = "<!-- INICIO FORMULARIO BOTAO PAGSEGURO -->\n" +
-                "<form action=\"https://pagseguro.uol.com.br/checkout/v2/donation.html\" method=\"post\">\n" +
-                "<!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->\n" +
-                "<input type=\"hidden\" name=\"currency\" value=\"BRL\" />\n" +
-                "<input type=\"hidden\" name=\"receiverEmail\" value=\"iagofontes@hotmail.com\" />\n" +
-                "<input type=\"hidden\" name=\"iot\" value=\"button\" />\n" +
-                "<input type=\"image\" src=\"https://stc.pagseguro.uol.com.br/public/img/botoes/doacoes/120x53-doar-preto.gif\" name=\"submit\" alt=\"Pague com PagSeguro - é rápido, grátis e seguro!\" />\n" +
-                "</form>\n" +
-                "<!-- FINAL FORMULARIO BOTAO PAGSEGURO -->";
-        wv.loadData(html, "text/html", null);*/
-//        wv.loadUrl("http://10.67.172.170:3000/pagseguro");
-//        Uri uri = Uri.parse("https://mario-apra.tk/mercado_pago");
-
 
         return view;
     }

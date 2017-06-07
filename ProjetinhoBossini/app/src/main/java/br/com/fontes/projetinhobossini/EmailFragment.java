@@ -2,6 +2,7 @@ package br.com.fontes.projetinhobossini;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,12 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Properties;
-
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -69,7 +66,7 @@ public class EmailFragment extends Fragment {
         txtEmail = (EditText) emailView.findViewById(R.id.txtEmail);
         txtTelefone = (EditText) emailView.findViewById(R.id.txtTelefone);
         txtCelular = (EditText) emailView.findViewById(R.id.txtCelular);
-        txtEmpresa = (EditText) emailView.findViewById(R.id.txtEmpresa);
+        txtEmpresa = (EditText) emailView.findViewById(R.id.txtCompany);
         txtSite = (EditText) emailView.findViewById(R.id.txtSite);
         txtMensagem = (EditText) emailView.findViewById(R.id.txtMessage);
         context = null;
@@ -90,7 +87,19 @@ public class EmailFragment extends Fragment {
                 txtCelular.getText().toString(), txtEmpresa.getText().toString(),
                 txtSite.getText().toString(), txtMensagem.getText().toString(), getContext());
 
-        Properties props = new Properties();
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"iagofontes@hotmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "Apadrinhamento de Herdeiros");
+        i.putExtra(Intent.EXTRA_TEXT   , "Corpinho do email");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+
+        /*Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -101,14 +110,14 @@ public class EmailFragment extends Fragment {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
 //                return super.getPasswordAuthentication("exemplo@gmail.com", "contraseñaExemplo");
-                return new PasswordAuthentication("azaza06.zazaaz@gmail.com", "iagoti2014");
+                return new PasswordAuthentication("herdeirosteste@gmail.com", "protese2011");
             }
         });
 
 //        pDialog = ProgressDialog.show(context, "", "Sending Email...", true);
 
         RetreiveFeedTask task = new RetreiveFeedTask();
-        task.execute();
+        task.execute();*/
     }
 
     class RetreiveFeedTask extends AsyncTask<String, Void, String>{
@@ -116,8 +125,8 @@ public class EmailFragment extends Fragment {
         protected String doInBackground(String... param){
             try{
                 Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("azaza06.zazaaz@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("iago@urgtec.com.br"));
+                message.setFrom(new InternetAddress("herdeirosteste@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("iagofontes@hotmail.com"));
                 message.setSubject("Herdeiros do futuro");
                 message.setContent(msg.getMensagem(), "text/html; charset=utf-8");
                 Transport.send(message);

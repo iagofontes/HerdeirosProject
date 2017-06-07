@@ -65,8 +65,9 @@ public class EventosFragment extends Fragment {
         try{
 
 //            url = new URL("http://localhost:3000/donates");
-//            url = new URL(R.string.ip_server+"/events");
-            url = new URL("http://10.42.0.1:3000/events");
+            url = new URL(getString(R.string.ip_server)+"/events");
+//            url = new URL("http://10.42.0.1:3000/events");
+//            url = new URL("http://10.42.0.1:3000/events");
 
         }catch (Exception e){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();

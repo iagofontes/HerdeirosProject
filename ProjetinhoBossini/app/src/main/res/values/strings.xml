@@ -7,4 +7,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name</string>
+    <string name="email">example@fatec.com</string>
+    <string name="telefone">(xx)xxxx-xxxx</string>
+    <string name="phone">(xx)xxxxx-xxxx</string>
+    <string name="company">CompanyOfFuture</string>
+    <string name="website">Facebook.com/FATEC</string>
+    <string name="message">Please, send a message for us.</string>
 </resources>

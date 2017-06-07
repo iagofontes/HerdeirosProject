@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,14 +29,17 @@ import java.util.List;
 
 public class DoacoesFragment extends Fragment {
 
-//    private OnFragmentInteractionListener mListener;
-    private List<Donate> donates = new ArrayList<>();
     protected TextView returna;
-//    public List<Bitmap> ;
+    //    public List<Bitmap> ;
     public ImageView img1, img2;
     public TextView txt1;
     private List<Bitmap> imagesBit = new ArrayList<Bitmap>();
     public ImageView foto1=null;
+    //    private OnFragmentInteractionListener mListener;
+
+    private List<Donate> donates = new ArrayList<>();
+    private DonateArrayAdapter donateArrayAdapter;
+    private ListView donateListView;
 
     public DoacoesFragment() {
         // Required empty public constructor
@@ -58,10 +62,12 @@ public class DoacoesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_doacoes, container, false);
 //        returna = (TextView) view.findViewById(R.id.returnAsync);
-        img1 = (ImageView) view.findViewById(R.id.foto1);
+        /*img1 = (ImageView) view.findViewById(R.id.foto1);
         img2 = (ImageView) view.findViewById(R.id.foto2);
-        txt1 = (TextView) view.findViewById(R.id.textView);
-
+        txt1 = (TextView) view.findViewById(R.id.textView);*/
+        donateListView= (ListView) view.findViewById(R.id.donatesList);
+        donateArrayAdapter = new DonateArrayAdapter(getContext(), donates);
+        donateListView.setAdapter(donateArrayAdapter);
 
         URL url = null;
 
@@ -69,7 +75,7 @@ public class DoacoesFragment extends Fragment {
 
 //            url = new URL("http://localhost:3000/donates");
 //            url = new URL("http://172.20.10.7:3000/donates");
-            url = new URL(R.string.ip_server+"/donates");
+            url = new URL(getString(R.string.ip_server)+"/donates");
 
         }catch (Exception e){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -129,7 +135,7 @@ public class DoacoesFragment extends Fragment {
                 for (int i = 0; i < list.length(); i++){
                     JSONObject line = list.getJSONObject(i);
                     String nome = line.optString("name");
-                    donates.add(new Donate(line.getString("name"), line.getString("pathImage")));
+                    donates.add(new Donate(line.getString("name"), line.getString("pathImage"), null));
                 }
                 Log.d("ConvertJSONToArray", donates.toString());
             }
@@ -141,11 +147,13 @@ public class DoacoesFragment extends Fragment {
         protected void onPostExecute(JSONObject don) {
 
             convertJSONToArrayList (don);
-            txt1.setText(donates.get(0).getNome());
+            donateArrayAdapter.notifyDataSetChanged();
+            donateListView.smoothScrollToPosition(0);
+//            txt1.setText(donates.get(0).getNome());
             //Chamar a segunda requisição para baixar as imagens aqui.
-            if(donates.size() > 0){
-                baixarImagensDonates(donates);
-            }
+//            if(donates.size() > 0){
+//                baixarImagensDonates(donates);
+//            }
         }
     }
 
